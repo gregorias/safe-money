@@ -1,0 +1,13 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "safe-money:lib"
+
+    - path: "./app/Main.hs"
+      component: "safe-money:exe:safe-money"
+
+    - path: "./app/Paths_hledupt.hs"
+      component: "safe-money:exe:safe-money"
+
+    - path: "./test"
+      component: "safe-money:test:safe-money-test"

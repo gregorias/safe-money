@@ -1,0 +1,114 @@
+name:                safe-money
+version:             0.1.0.0
+github:              "gregorias/safe-money"
+license:             AGPL-3
+author:              "Grzegorz Milka"
+maintainer:          "grzegorzmilka@gmail.com"
+copyright:           "Copyright (c) 2023 Grzegorz Milka"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/gregorias/safe-money#readme>
+
+# Some defaults recommended by https://kowainik.github.io/posts/2019-02-06-style-guide#default-extensions
+default-extensions:
+  BangPatterns
+  DataKinds
+  DeriveDataTypeable
+  DeriveFoldable
+  DeriveFunctor
+  DeriveGeneric
+  DeriveTraversable
+  DerivingStrategies
+  DerivingVia
+  DuplicateRecordFields
+  FlexibleContexts
+  FlexibleInstances
+  FunctionalDependencies
+  GADTs
+  GeneralisedNewtypeDeriving
+  ImportQualifiedPost
+  InstanceSigs
+  LambdaCase
+  MultiParamTypeClasses
+  MultiWayIf
+  NoImplicitPrelude
+  NumericUnderscores
+  OverloadedLabels
+  OverloadedLists
+  OverloadedStrings
+  PatternSynonyms
+  PolyKinds
+  QuasiQuotes
+  ScopedTypeVariables
+  StandaloneDeriving
+  TupleSections
+  TypeApplications
+  TypeFamilies
+  TypeOperators
+  UnicodeSyntax
+  ViewPatterns
+
+dependencies:
+- base >= 4.13 && < 5
+
+# no-type-defaults, this is dangerous, but in terms of convenience it's so
+# useful to use ExtendedDefaultRules that I keep it.
+ghc-options:
+  - -Wall
+  - -Werror
+  - -Wcompat
+  - -Wmissing-deriving-strategies
+  - -Widentities
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wmissing-export-lists
+  - -Wpartial-fields
+  - -Wredundant-constraints
+  - -Wno-type-defaults
+  - -Wno-partial-type-signatures
+
+library:
+  source-dirs: src
+  ghc-options:
+  - -Wunused-packages
+  dependencies:
+  - relude
+
+executables:
+  safe-money:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wunused-packages
+    dependencies:
+    - safe-money
+    - relude
+    # Fix https://stackoverflow.com/questions/67519851/multiple-files-use-the-same-module-name
+    when:
+    - condition: false
+      other-modules: Paths_safe-money
+
+
+tests:
+  safe-money-test:
+    main:                Main.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wunused-packages
+    dependencies:
+    - relude
