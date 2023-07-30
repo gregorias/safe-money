@@ -81,7 +81,9 @@ library:
   ghc-options:
   - -Wunused-packages
   dependencies:
+  - megaparsec
   - relude
+  - witch
 
 executables:
   safe-money:

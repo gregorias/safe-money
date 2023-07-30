@@ -24,6 +24,8 @@ source-repository head
 
 library
   exposed-modules:
+      Data.Currency
+      Data.Money
       Lib
   other-modules:
       Paths_safe_money
@@ -34,7 +36,9 @@ library
   ghc-options: -Wall -Werror -Wcompat -Wmissing-deriving-strategies -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wpartial-fields -Wredundant-constraints -Wno-type-defaults -Wno-partial-type-signatures -Wunused-packages
   build-depends:
       base >=4.13 && <5
+    , megaparsec
     , relude
+    , witch
   default-language: Haskell2010
 
 executable safe-money
