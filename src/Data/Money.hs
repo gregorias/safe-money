@@ -4,9 +4,13 @@
 
 -- | The safe Money type.
 module Data.Money (
+  -- * Types
   Money (..),
   SomeMoney (..),
   makeMoney,
+  makeSomeMoney,
+
+  -- * Operations
   add,
   multiply,
   negate,
@@ -57,10 +61,14 @@ data SomeMoney r where
   SomeMoney :: Money c r -> SomeMoney r
 
 -- | Makes a 'Money' value from a currency and an amount.
-makeMoney :: Currency -> r -> SomeMoney r
-makeMoney currency amount =
+makeSomeMoney :: Currency -> r -> SomeMoney r
+makeSomeMoney currency amount =
   case currencyToWitness currency of
     SomeCurrencyWitness witness -> SomeMoney $ Money witness amount
+
+-- | Makes a 'Money' value from a currency and an amount.
+makeMoney :: CurrencyWitness c -> r -> Money c r
+makeMoney = Money
 
 -- We can't use the Num class for Money, because some operations don't make sense, e.g.,
 -- multiplication of two money values. We have to make our own classes for numeric-like operations.
