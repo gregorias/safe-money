@@ -1,10 +1,15 @@
 -- | A prototype of a currency type.
+{-# LANGUAGE RankNTypes #-}
 module Data.Currency (
+  -- * Types with their singletons.
   Currency (..),
   CurrencyWitness (..),
   SomeCurrencyWitness (..),
+
+  -- * Conversions
   currencyToWitness,
   witnessToCurrency,
+  withTypeableCurrency,
   currencyP,
 ) where
 
@@ -13,7 +18,12 @@ import Text.Megaparsec qualified as MP
 import Text.Megaparsec.Char (letterChar)
 
 data Currency = CHF | EUR | PLN | USD
-  deriving stock (Bounded, Enum, Eq, Read, Show)
+  deriving stock (Bounded, Enum, Eq, Read, Show, Typeable)
+
+deriving stock instance Typeable CHF
+deriving stock instance Typeable EUR
+deriving stock instance Typeable PLN
+deriving stock instance Typeable USD
 
 data CurrencyWitness (c :: Currency) where
   CHFWitness :: CurrencyWitness CHF
@@ -42,6 +52,17 @@ witnessToCurrency CHFWitness = CHF
 witnessToCurrency EURWitness = EUR
 witnessToCurrency PLNWitness = PLN
 witnessToCurrency USDWitness = USD
+
+-- Given a CurrencyWitness, we can get a Typeable constraint on currency with
+-- this function.
+--
+-- This function is necessary, because there's no other way to declare all
+-- Currency values to be Typeable.
+withTypeableCurrency :: CurrencyWitness c -> ((Typeable c) => a) -> a
+withTypeableCurrency CHFWitness x = x
+withTypeableCurrency EURWitness x = x
+withTypeableCurrency PLNWitness x = x
+withTypeableCurrency USDWitness x = x
 
 parseCurrency :: Text -> Maybe Currency
 parseCurrency = inverseMap show

@@ -12,6 +12,7 @@ module Data.Money (
 
   -- * Operations
   add,
+  addSomeMoney,
   multiply,
   negate,
   divide,
@@ -20,10 +21,11 @@ module Data.Money (
 
 import Data.Currency (
   Currency,
-  CurrencyWitness,
+  CurrencyWitness (..),
   SomeCurrencyWitness (..),
-  currencyToWitness,
+  currencyToWitness, withTypeableCurrency,
  )
+import Data.Typeable (eqT, type (:~:) (Refl))
 import Relude hiding (
   abs,
   negate,
@@ -76,6 +78,17 @@ makeMoney = Money
 add :: (Num r) => Money c r -> Money c r -> Money c r
 add (Money witness1 amount1) (Money _ amount2) =
   Money witness1 (amount1 + amount2)
+
+-- Add two money values of unknown currency.
+addSomeMoney :: (Num r) => SomeMoney r -> SomeMoney r -> Maybe (SomeMoney r)
+addSomeMoney
+  (SomeMoney m1@(Money (c1 :: CurrencyWitness tc1) _))
+  (SomeMoney m2@(Money (c2 :: CurrencyWitness tc2) _)) =
+    withTypeableCurrency c1
+      $ withTypeableCurrency c2
+      $ case eqT @tc1 @tc2 of
+        Just Refl -> Just $ SomeMoney $ add m1 m2
+        Nothing -> Nothing
 
 multiply :: (Num r) => Money c r -> r -> Money c r
 multiply (Money witness1 amount1) amount2 =

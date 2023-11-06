@@ -12,27 +12,14 @@ I set up the following requirements:
 
 ## Unsolved problems
 
-- [How do I efficiently add existentially typed safe money values?](https://stackoverflow.com/questions/77429592/how-do-i-efficiently-add-existentially-typed-safe-money-values)
-
 ```haskell
--- How do I write this function efficiently?
-addSomeMoney :: SomeMoney r -> SomeMoney r -> Maybe (SomeMoney r)
--- This kind of pattern matching doesn't work (making sure currency is the same):
-addSomeMoney (SomeMoney m@(Money c a)) m'@(SomeMoney (Money c b)) =
-  Just . SomeMoney $ add m m'
-addSomeMoney _ _ = Nothing
--- This gives "Conlicting definitions of 'c'".
-
--- Best I can do is to list out all posibilities:
-addSomeMoney (SomeMoney m@(Money c _)) (SomeMoney m'@(Money c' _)) = case (c, c') of
-  (CHFWitness, CHFWitness) -> Just . SomeMoney $ add m m'
-  (PLNWitness, PLNWitness) -> Just . SomeMoney $ add m m'
-  -- ...
-  (_, _) -> Nothing
-
 -- Can I do not forgetful currency to witness cast?
 currencyToWitness :: (c :: Currency) -> CurrencyWitness c
 -- The above doesn't work, because (c :: Currency) says that currencyToWitness
 -- accepts a paramater of type c, which is a value (of type Currency), so it
 -- doesn't work.
 ```
+
+## See also
+
+- [How do I efficiently add existentially typed safe money values?](https://stackoverflow.com/questions/77429592/how-do-i-efficiently-add-existentially-typed-safe-money-values)
