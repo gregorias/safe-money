@@ -12,6 +12,8 @@ I set up the following requirements:
 
 ## Unsolved problems
 
+- [How do I efficiently add existentially typed safe money values?](https://stackoverflow.com/questions/77429592/how-do-i-efficiently-add-existentially-typed-safe-money-values)
+
 ```haskell
 -- How do I write this function efficiently?
 addSomeMoney :: SomeMoney r -> SomeMoney r -> Maybe (SomeMoney r)

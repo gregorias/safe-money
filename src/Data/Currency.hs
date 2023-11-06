@@ -12,14 +12,9 @@ import Relude
 import Text.Megaparsec qualified as MP
 import Text.Megaparsec.Char (letterChar)
 
--- | Currency constructors are ISO 4217 currency codes.
 data Currency = CHF | EUR | PLN | USD
   deriving stock (Bounded, Enum, Eq, Read, Show)
 
--- | Type witness for 'Currency'.
---
--- In production code we could use template Haskell to generate this. I don't
--- know if there's a better way.
 data CurrencyWitness (c :: Currency) where
   CHFWitness :: CurrencyWitness CHF
   EURWitness :: CurrencyWitness EUR
