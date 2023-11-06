@@ -9,3 +9,20 @@ I set up the following requirements:
 2. The type should allow declaring the amount's currency and prevent operations
    on monetary amounts of differring currencies.
 3. Currency should only allow valid currencies.
+
+## Unsolved problems
+
+```haskell
+-- How do I write this function efficiently?
+addSomeMoney :: SomeMoney r -> SomeMoney r -> Maybe (SomeMoney r)
+-- This kind of pattern matching doesn't work (making sure currency is the same):
+addSomeMoney (SomeMoney m@(Money c a)) m'@(SomeMoney (Money c b)) =
+  Just . SomeMoney $ add m m'
+addSomeMoney _ _ = Nothing
+
+-- Can I do not forgetful currency to witness cast?
+currencyToWitness :: (c :: Currency) -> CurrencyWitness c
+-- The above doesn't work, because (c :: Currency) says that currencyToWitness
+-- accepts a paramater of type c, which is a value (of type Currency), so it
+-- doesn't work.
+```
