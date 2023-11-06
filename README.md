@@ -19,6 +19,14 @@ addSomeMoney :: SomeMoney r -> SomeMoney r -> Maybe (SomeMoney r)
 addSomeMoney (SomeMoney m@(Money c a)) m'@(SomeMoney (Money c b)) =
   Just . SomeMoney $ add m m'
 addSomeMoney _ _ = Nothing
+-- This gives "Conlicting definitions of 'c'".
+
+-- Best I can do is to list out all posibilities:
+addSomeMoney (SomeMoney m@(Money c _)) (SomeMoney m'@(Money c' _)) = case (c, c') of
+  (CHFWitness, CHFWitness) -> Just . SomeMoney $ add m m'
+  (PLNWitness, PLNWitness) -> Just . SomeMoney $ add m m'
+  -- ...
+  (_, _) -> Nothing
 
 -- Can I do not forgetful currency to witness cast?
 currencyToWitness :: (c :: Currency) -> CurrencyWitness c
